@@ -1,0 +1,43 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>To Do Flask App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+
+<body>
+  <div class="ui container" style="margin-top: 50px;">
+    <h1 class="ui center aligned header">ToDo App</h1>
+    <p>
+    <form class="ui form" method="POST" action="/add">
+      <div class="field">
+        {{ form.csrf_token }}
+        <span class="ui medium header">{{ form.name.label }} {{ form.name(size=20) }}</span>
+        <input class="ui blue button" type="submit" value="Add">
+      </div>
+    </form>
+    </p>
+
+    {% for todo in todos: %}
+    <div class="ui segment">
+      <p class="ui large header">{{ todo.id }} | {{ todo.name }}</p>
+
+      {% if todo.completed==False: %}
+      <span class="ui red label">Not completed</span>
+      {% else: %}
+      <span class="ui green label">Completed</span>
+      {% endif %}
+
+      <a class="ui blue button" href="{{url_for('update', todo_id=todo.id) }}">Update</a>
+      <a class="ui grey button" href="{{url_for('delete', todo_id=todo.id) }}">Delete</a>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+
+</html>
